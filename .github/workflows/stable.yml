@@ -35,7 +35,7 @@ jobs:
 
     - name: Build
       run: |
-        docker build libre -t libre \
+        docker buildx --platform linux/amd64,linux/arm64 libre -t libre \
             --build-arg VERSION=${{ env.VERSION_RE }} \
 
     - name: Tag and Push image
@@ -62,7 +62,7 @@ jobs:
 
     - name: Build
       run: |
-        docker build baresip -t baresip \
+        docker buildx --platform linux/amd64,linux/arm64 baresip -t baresip \
           --build-arg VERSION=${{ env.VERSION_BARESIP }} \
           --build-arg IMAGE=ghcr.io/baresip/docker/libre:latest \
 

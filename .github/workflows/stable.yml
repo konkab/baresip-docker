@@ -41,7 +41,7 @@ jobs:
       run: |
         docker buildx build libre -t libre \
           --build-arg VERSION=${{ env.VERSION_RE }} \
-          --platform linux/amd64,linux/arm64 \
+          --platform linux/amd64,linux/arm64
 
     - name: Tag and Push image
       if: github.event_name != 'pull_request'
@@ -75,7 +75,7 @@ jobs:
         docker buildx build baresip -t baresip \
           --build-arg VERSION=${{ env.VERSION_BARESIP }} \
           --build-arg IMAGE=ghcr.io/${{ env.LIBRE_IMAGE_NAME }}:latest \
-          --platform linux/amd64,linux/arm64 \
+          --platform linux/amd64,linux/arm64
 
     - name: Tag and Push image
       if: github.event_name != 'pull_request'

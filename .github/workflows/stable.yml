@@ -39,8 +39,9 @@ jobs:
 
     - name: Build
       run: |
-        docker buildx build --platform linux/amd64,linux/arm64 libre -t libre \
-            --build-arg VERSION=${{ env.VERSION_RE }} \
+        docker buildx build libre -t libre \
+          --build-arg VERSION=${{ env.VERSION_RE }} \
+          --platform linux/amd64,linux/arm64 \
 
     - name: Tag and Push image
       if: github.event_name != 'pull_request'
@@ -53,6 +54,7 @@ jobs:
   baresip:
     env:
         IMAGE_NAME: ${{ github.repository }}/baresip
+        LIBRE_IMAGE_NAME: ${{ github.repository }}/libre
     needs: [ "libre" ]
     runs-on: ubuntu-latest
     steps:
@@ -70,9 +72,10 @@ jobs:
 
     - name: Build
       run: |
-        docker buildx build --platform linux/amd64,linux/arm64 baresip -t baresip \
+        docker buildx build baresip -t baresip \
           --build-arg VERSION=${{ env.VERSION_BARESIP }} \
-          --build-arg IMAGE=ghcr.io/baresip/docker/libre:latest \
+          --build-arg IMAGE=ghcr.io/${{ env.LIBRE_IMAGE_NAME }}:latest \
+          --platform linux/amd64,linux/arm64 \
 
     - name: Tag and Push image
       if: github.event_name != 'pull_request'
